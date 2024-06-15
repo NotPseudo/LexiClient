@@ -2,6 +2,7 @@ package me.notpseudo.lexiclient;
 
 import me.notpseudo.lexiclient.command.LexiClientCommand;
 import me.notpseudo.lexiclient.features.DominusTimer;
+import me.notpseudo.lexiclient.features.DumbMessages;
 import me.notpseudo.lexiclient.utils.SBInfo;
 import me.notpseudo.lexiclient.utils.TabListUtils;
 import net.minecraft.client.Minecraft;
@@ -54,6 +55,7 @@ public class LexiClient {
         DominusTimer.dominusTimer();
         if (currentTime - lastLongUpdate > 1000) {
             TabListUtils.parseTabEntries();
+            DumbMessages.dumbMessage();
             lastLongUpdate = currentTime;
         }
     }
