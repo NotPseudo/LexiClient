@@ -1,6 +1,7 @@
 package me.notpseudo.lexiclient.config;
 
 import cc.polyfrost.oneconfig.config.annotations.HUD;
+import cc.polyfrost.oneconfig.config.annotations.Slider;
 import cc.polyfrost.oneconfig.config.annotations.Switch;
 import me.notpseudo.lexiclient.LexiClient;
 import cc.polyfrost.oneconfig.config.Config;
@@ -27,6 +28,21 @@ public class LexiConfig extends Config {
             category = "Dumb Shit"
     )
     public static boolean lexiRat = true;
+
+    @Switch(
+            name = "Dumb Messages",
+            category = "Dumb Shit"
+    )
+    public static boolean dumbMessages = true;
+
+    @Slider(
+            name = "Dumb Message Timer",
+            category = "Dumb Shit",
+            min = 15f, max = 120f,
+            step = 15
+    )
+    public static float dumbMessageTime = 60f;
+
 
     public LexiConfig() {
         super(new Mod(LexiClient.NAME, ModType.SKYBLOCK), LexiClient.MODID + ".json");

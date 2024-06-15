@@ -11,6 +11,7 @@ Massive credit given to [DulkirMod](https://github.com/inglettronald/DulkirMod/)
 
 ### Stupid
 - Rat messages
+- Dumb random messages at an interval
 
 ### Why
 Friends asked for some features that they couldn't easily find in other mods. Wanted a challenge. Decided to make this.
