@@ -1,6 +1,7 @@
 package me.notpseudo.lexiclient.config;
 
 import cc.polyfrost.oneconfig.config.annotations.HUD;
+import cc.polyfrost.oneconfig.config.annotations.Switch;
 import me.notpseudo.lexiclient.LexiClient;
 import cc.polyfrost.oneconfig.config.Config;
 
@@ -20,6 +21,12 @@ public class LexiConfig extends Config {
             category = "Hud"
     )
     public static DominusHud dominusHud = new DominusHud();
+
+    @Switch(
+            name = "Lexi Rat",
+            category = "Dumb Shit"
+    )
+    public static boolean lexiRat = true;
 
     public LexiConfig() {
         super(new Mod(LexiClient.NAME, ModType.SKYBLOCK), LexiClient.MODID + ".json");
