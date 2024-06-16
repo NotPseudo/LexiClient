@@ -41,7 +41,7 @@ public class LexiConfig extends Config {
             min = 15f, max = 120f,
             step = 15
     )
-    public static float dumbMessageTime = 60f;
+    public static float dumbMessageTime = 15f;
 
 
     public LexiConfig() {
