@@ -59,10 +59,11 @@ public class DominusTimer {
     static void restartTimer() {
         int numPiecesCrimson = ArmorUtils.countPiecesFromSet("CRIMSON");
         if (numPiecesCrimson < 2) {
+            stopTimer = true;
             return;
         }
-        int seconds = 4 + (numPiecesCrimson - 2) * 3;
         stopTimer = false;
+        int seconds = 1 + (numPiecesCrimson - 1) * 3;
         lastStackUpdate = System.currentTimeMillis();
         stackLoseTime = lastStackUpdate + seconds * 1000L;
     }
