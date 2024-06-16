@@ -61,18 +61,7 @@ public class DominusTimer {
         if (numPiecesCrimson < 2) {
             return;
         }
-        int seconds;
-        switch (numPiecesCrimson) {
-            case 4:
-                seconds = 10;
-                break;
-            case 3:
-                seconds = 7;
-                break;
-            default:
-                seconds = 4;
-                break;
-        };
+        int seconds = 4 + (numPiecesCrimson - 2) * 3;
         stopTimer = false;
         lastStackUpdate = System.currentTimeMillis();
         stackLoseTime = lastStackUpdate + seconds * 1000L;
