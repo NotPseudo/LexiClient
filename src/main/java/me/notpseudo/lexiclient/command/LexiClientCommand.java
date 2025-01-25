@@ -12,7 +12,7 @@ import cc.polyfrost.oneconfig.utils.commands.annotations.Main;
  * @see Main
  * @see LexiClient
  */
-@Command(value = LexiClient.MODID, description = "Access the " + LexiClient.NAME + " GUI.")
+@Command(value = LexiClient.MODID, aliases = {"lexi", "lc"}, description = "Access the " + LexiClient.NAME + " GUI.")
 public class LexiClientCommand {
     @Main
     private void handle() {
