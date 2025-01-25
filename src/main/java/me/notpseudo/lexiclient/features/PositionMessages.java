@@ -15,7 +15,7 @@ import static me.notpseudo.lexiclient.LexiClient.mc;
 public class PositionMessages {
 
     private static long ssLastSend, ee2LastSend, ee3LastSend, ee4LastSend, coreLastSend = 0;
-    private static long lastPosRec = 0;
+    private static long lastSS, lastEE2, lastEE3, lastEE4, lastCore = 0;
 
     public static void checkPosition() {
         if (!LexiConfig.sendPosMessages) return;
@@ -23,35 +23,35 @@ public class PositionMessages {
         if (mc.thePlayer == null) return;
         Vec3 posVec = mc.thePlayer.getPositionVector();
         long curTime = System.currentTimeMillis();
-        if (curTime - ssLastSend > 25000) {
+        if (curTime - ssLastSend > 20000) {
             if (isVecInAABB(posVec, new AxisAlignedBB(LexiConfig.ssx, LexiConfig.ssy, LexiConfig.ssz, LexiConfig.ssx2, LexiConfig.ssy2, LexiConfig.ssz2))) {
                 ChatUtils.sendPartyChatMessage(LexiConfig.ssMessage);
                 ssLastSend = curTime;
                 return;
             }
         }
-        if (curTime - ee2LastSend > 25000) {
+        if (curTime - ee2LastSend > 20000) {
             if (isVecInAABB(posVec, new AxisAlignedBB(LexiConfig.ee2x, LexiConfig.ee2y, LexiConfig.ee2z, LexiConfig.ee2x2, LexiConfig.ee2y2, LexiConfig.ee2z2))) {
                 ChatUtils.sendPartyChatMessage(LexiConfig.ee2Message);
                 ee2LastSend = curTime;
                 return;
             }
         }
-        if (curTime - ee3LastSend > 25000) {
+        if (curTime - ee3LastSend > 20000) {
             if (isVecInAABB(posVec, new AxisAlignedBB(LexiConfig.ee3x, LexiConfig.ee3y, LexiConfig.ee3z, LexiConfig.ee3x2, LexiConfig.ee3y2, LexiConfig.ee3z2))) {
                 ChatUtils.sendPartyChatMessage(LexiConfig.ee3Message);
                 ee3LastSend = curTime;
                 return;
             }
         }
-        if (curTime - ee4LastSend > 25000) {
+        if (curTime - ee4LastSend > 20000) {
             if (isVecInAABB(posVec, new AxisAlignedBB(LexiConfig.ee4x, LexiConfig.ee4y, LexiConfig.ee4z, LexiConfig.ee4x2, LexiConfig.ee4y2, LexiConfig.ee4z2))) {
                 ChatUtils.sendPartyChatMessage(LexiConfig.ee4Message);
                 ee4LastSend = curTime;
                 return;
             }
         }
-        if (curTime - coreLastSend > 25000) {
+        if (curTime - coreLastSend > 20000) {
             if (isVecInAABB(posVec, new AxisAlignedBB(LexiConfig.corex, LexiConfig.corey, LexiConfig.corez, LexiConfig.corex2, LexiConfig.corey2, LexiConfig.corez2))) {
                 ChatUtils.sendPartyChatMessage(LexiConfig.coreMessage);
                 coreLastSend = curTime;
@@ -67,9 +67,6 @@ public class PositionMessages {
         if (event.type != 0) return;
         if (!LexiConfig.showPosTitle) return;
         if (!SBInfo.getMode().equals("dungeon") && !LexiConfig.testMode) return;
-        if (System.currentTimeMillis() - lastPosRec < 5000) {
-            return;
-        }
 
         String unformatted = event.message.getUnformattedText();
         String stripped = TextUtils.stripColor(unformatted);
@@ -101,21 +98,42 @@ public class PositionMessages {
 
     private static void handleTitle(int part, String username) {
         String place = "somehow breaking this feature";
+        long curTime = System.currentTimeMillis();
         switch (part) {
             case 1:
+                if (curTime - lastSS < 20000) {
+                    return;
+                }
                 place = LexiConfig.ssMessage;
+                lastSS = curTime;
                 break;
             case 2:
+                if (curTime - lastEE2 < 5000) {
+                    return;
+                }
                 place = LexiConfig.ee2Message;
+                lastEE2 = curTime;
                 break;
             case 3:
+                if (curTime - lastEE3 < 5000) {
+                    return;
+                }
                 place = LexiConfig.ee3Message;
+                lastEE3 = curTime;
                 break;
             case 4:
+                if (curTime - lastEE4 < 5000) {
+                    return;
+                }
                 place = LexiConfig.ee4Message;
+                lastEE4 = curTime;
                 break;
             case 5:
+                if (curTime - lastCore < 20000) {
+                    return;
+                }
                 place = LexiConfig.coreMessage;
+                lastCore = curTime;
                 break;
         }
         String title = getColorCode(LexiConfig.positionTitleColor) + username + " is " + place;
@@ -125,7 +143,6 @@ public class PositionMessages {
             TitleUtils.showTitleForTime(title, 5000, LexiConfig.positionTitleSize);
         }
         if (LexiConfig.recPosSound) SoundUtils.playPling(LexiConfig.recPosSoundVolume);
-        lastPosRec = System.currentTimeMillis();
     }
 
     private static String getColorCode(int colorOption) {
@@ -140,7 +157,11 @@ public class PositionMessages {
         ee3LastSend = 0;
         ee4LastSend = 0;
         coreLastSend = 0;
-        lastPosRec = 0;
+        lastSS = 0;
+        lastEE2 = 0;
+        lastEE3 = 0;
+        lastEE4 = 0;
+        lastCore = 0;
     }
 
     private static boolean isVecInAABB(Vec3 vec, AxisAlignedBB aabb) {
