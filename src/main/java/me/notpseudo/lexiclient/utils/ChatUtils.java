@@ -14,8 +14,8 @@ public class ChatUtils {
 
     public static void info(String text, boolean prefix) {
         if (mc.thePlayer == null) return;
-        String textPrefix = prefix ? CHAT_PREFIX : "";
-        mc.thePlayer.addChatMessage(new ChatComponentText(textPrefix + " " + text + "§r"));
+        String textPrefix = prefix ? CHAT_PREFIX + " " : "";
+        mc.thePlayer.addChatMessage(new ChatComponentText(textPrefix + text + "§r"));
     }
 
     public static void info(String text) {
