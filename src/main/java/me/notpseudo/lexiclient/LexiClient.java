@@ -63,6 +63,9 @@ public class LexiClient {
             DumbMessages.dumbMessage();
             lastLongUpdate = currentTime;
         }
+        if (currentTime - lastLongUpdate > 60000) {
+            SBInfo.tryLocraw();
+        }
     }
 
 }
