@@ -152,7 +152,18 @@ public class DumbMessages {
             "no motion",
             "You stole out minions ofr an alt profile that's crazy",
             "Invest in enchanted monkey shit",
-            "Fin"
+            "Fin",
+            "spongebob parallelogram circle shorts",
+            "how many infernal runs do you have",
+            "kuudra addiction",
+            "fenway ban gg",
+            "lik and subscrib to instantly shid ur pants",
+            "sigma sigma boi sigma boi",
+            "imagine if low taper fade got a ninja",
+            "glory to the ccp",
+            "u owe me free vbucks now",
+            "miku miku beam",
+            "fro diarrhea moment"
     );
 
 }
