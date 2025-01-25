@@ -8,6 +8,8 @@ Massive credit given to [DulkirMod](https://github.com/inglettronald/DulkirMod/)
 
 ### Useful
 - Dominus Stack Timer
+- Auto Send Positional Messages
+- Title For Positional Messages
 
 ### Stupid
 - Rat messages
