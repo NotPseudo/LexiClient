@@ -56,11 +56,11 @@ public class LexiClient {
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         long currentTime = System.currentTimeMillis();
+        PositionMessages.checkPosition();
         DominusTimer.dominusTimer();
         if (currentTime - lastLongUpdate > 1000) {
             TabListUtils.parseTabEntries();
             DumbMessages.dumbMessage();
-            PositionMessages.checkPosition();
             lastLongUpdate = currentTime;
         }
         if (currentTime - lastLongUpdate > 60000) {
