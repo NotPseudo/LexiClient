@@ -32,10 +32,7 @@ public class SBInfo {
     @SubscribeEvent
     public void onWorldLoad(ChunkEvent.Load event) {
         if (state == STATE.UNLOADED) {
-            if (mc.thePlayer != null) {
-                mc.thePlayer.sendChatMessage("/locraw");
-                state = STATE.SENT;
-            }
+            tryLocraw();
         }
     }
 
@@ -71,19 +68,27 @@ public class SBInfo {
     }
 
     public static String getServer() {
-        return loc == null ? "" : loc.server;
+        if (loc == null) return "";
+        if (loc.server == null) return "";
+        return loc.server;
     }
 
     public static String getGametype() {
-        return loc == null ? "" : loc.gametype;
+        if (loc == null) return "";
+        if (loc.gametype == null) return "";
+        return loc.gametype;
     }
 
     public static String getMode() {
-        return loc == null ? "" : loc.mode;
+        if (loc == null) return "";
+        if (loc.mode == null) return "";
+        return loc.mode;
     }
 
     public static String getMap() {
-        return loc == null ? "" : loc.map;
+        if (loc == null) return "";
+        if (loc.map == null) return "";
+        return loc.map;
     }
 
     public enum STATE {
