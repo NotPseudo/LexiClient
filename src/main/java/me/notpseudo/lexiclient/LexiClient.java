@@ -3,8 +3,10 @@ package me.notpseudo.lexiclient;
 import me.notpseudo.lexiclient.command.LexiClientCommand;
 import me.notpseudo.lexiclient.features.DominusTimer;
 import me.notpseudo.lexiclient.features.DumbMessages;
+import me.notpseudo.lexiclient.features.PositionMessages;
 import me.notpseudo.lexiclient.utils.SBInfo;
 import me.notpseudo.lexiclient.utils.TabListUtils;
+import me.notpseudo.lexiclient.utils.TitleUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import me.notpseudo.lexiclient.config.LexiConfig;
@@ -47,12 +49,15 @@ public class LexiClient {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new DominusTimer());
         MinecraftForge.EVENT_BUS.register(new SBInfo());
+        MinecraftForge.EVENT_BUS.register(new TitleUtils());
+        MinecraftForge.EVENT_BUS.register(new PositionMessages());
     }
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         long currentTime = System.currentTimeMillis();
         DominusTimer.dominusTimer();
+        PositionMessages.checkPosition();
         if (currentTime - lastLongUpdate > 1000) {
             TabListUtils.parseTabEntries();
             DumbMessages.dumbMessage();
