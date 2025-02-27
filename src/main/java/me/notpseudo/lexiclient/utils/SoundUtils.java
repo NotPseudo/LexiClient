@@ -6,7 +6,7 @@ import static me.notpseudo.lexiclient.LexiClient.mc;
 
 public class SoundUtils {
 
-    public static void playPling(float volume) {
+    public static void playPling(float volume, float pitch) {
         float prevMaster = mc.gameSettings.getSoundLevel(SoundCategory.MASTER);
         mc.gameSettings.setSoundLevel(SoundCategory.MASTER, 1f);
         float prevNote = mc.gameSettings.getSoundLevel(SoundCategory.RECORDS);
@@ -14,7 +14,7 @@ public class SoundUtils {
         mc.thePlayer.playSound(
                 "note.pling",
                 volume,
-                1f
+                pitch
         );
         mc.gameSettings.setSoundLevel(SoundCategory.MASTER, prevMaster);
         mc.gameSettings.setSoundLevel(SoundCategory.RECORDS, prevNote);
