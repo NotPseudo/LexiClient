@@ -8,6 +8,8 @@ import cc.polyfrost.oneconfig.config.Config;
 import cc.polyfrost.oneconfig.config.data.Mod;
 import cc.polyfrost.oneconfig.config.data.ModType;
 import me.notpseudo.lexiclient.hud.DominusHud;
+import me.notpseudo.lexiclient.hud.MelodyHud;
+import me.notpseudo.lexiclient.hud.PosMessageHud;
 import me.notpseudo.lexiclient.utils.ChatUtils;
 import net.minecraft.client.audio.SoundCategory;
 
@@ -20,13 +22,22 @@ import static me.notpseudo.lexiclient.LexiClient.mc;
  */
 public class LexiConfig extends Config {
 
-    @Switch(
-            name = "Show Position Titles",
-            description = "Displays titles when receiving positional messages",
+
+    @HUD(
+            name = "Position Titles",
             category = "Dungeons",
             subcategory = "Position Titles"
     )
-    public static boolean showPosTitle = false;
+    public static PosMessageHud posMessageHud = new PosMessageHud();
+
+    @Number(
+            name = "Position Title Display Time",
+            min = 2, max = 10,
+            description = "The number of seconds to display the title for after receiving a positional message",
+            step = 1,
+            category = "Dungeons", subcategory = "Position Titles"
+    )
+    public static int posTitleDisplayTime = 5;
 
     @Switch(
             name = "Play Sound for Positional",
@@ -76,35 +87,7 @@ public class LexiConfig extends Config {
             subcategory = "Position Titles",
             size = 2
     )
-    public static int positionTitleColor = 11;
-
-    @Slider(
-            name = "Scale",
-            description = "Size of the title",
-            category = "Dungeons",
-            subcategory = "Position Titles",
-            min = 0f,
-            max = 1f,
-            step = 0
-    )
-    public static float positionTitleSize = .7f;
-
-    @Switch(
-            name = "Use Custom Screen Position",
-            description = "If enabled, will use custom location on your screen for the title. If disabled, will just try to place the message at the center of your screen",
-            category = "Dungeons",
-            subcategory = "Position Titles",
-            size = 2
-    )
-    public static boolean posTitleUseCustomScreen = false;
-
-    @Number(
-            name = "SS X", min = 0, max = 7680, category = "Dungeons", subcategory = "Position Titles")
-    public static int posTitleX = 960;
-
-    @Number(
-            name = "SS Y", min = 0, max = 4320, category = "Dungeons", subcategory = "Position Titles")
-    public static int posTitleY = 540;
+    public static int positionTitleColor = 6;
 
     @Text(
             name = "SS Message",
@@ -114,6 +97,15 @@ public class LexiConfig extends Config {
     )
     public static String ssTitleMessage = "At SS!";
 
+    @Number(
+            name = "SS Title Timeout",
+            min = 20, max = 300,
+            description = "The number of seconds to wait after the last received SS message before rendering the title again",
+            step = 10,
+            category = "Dungeons", subcategory = "Position Titles"
+    )
+    public static int ssRecTimeout = 60;
+
     @Text(
             name = "EE2 Message",
             placeholder = "At Early Enter 2!",
@@ -121,6 +113,15 @@ public class LexiConfig extends Config {
             category = "Dungeons", subcategory = "Position Titles"
     )
     public static String ee2TitleMessage = "At Early Enter 2!";
+
+    @Number(
+            name = "EE2 Title Timeout",
+            min = 20, max = 300,
+            description = "The number of seconds to wait after the last received EE2 message before rendering the title again",
+            step = 10,
+            category = "Dungeons", subcategory = "Position Titles"
+    )
+    public static int ee2RecTimeout = 60;
 
     @Text(
             name = "EE3 Message",
@@ -130,6 +131,15 @@ public class LexiConfig extends Config {
     )
     public static String ee3TitleMessage = "At Early Enter 3!";
 
+    @Number(
+            name = "EE3 Title Timeout",
+            min = 20, max = 300,
+            description = "The number of seconds to wait after the last received EE3 message before rendering the title again",
+            step = 10,
+            category = "Dungeons", subcategory = "Position Titles"
+    )
+    public static int ee3RecTimeout = 60;
+
     @Text(
             name = "EE4 Message",
             placeholder = "At Early Enter 4!",
@@ -137,6 +147,15 @@ public class LexiConfig extends Config {
             category = "Dungeons", subcategory = "Position Titles"
     )
     public static String ee4TitleMessage = "At Early Enter 4!";
+
+    @Number(
+            name = "EE4 Title Timeout",
+            min = 20, max = 300,
+            description = "The number of seconds to wait after the last received EE4 message before rendering the title again",
+            step = 10,
+            category = "Dungeons", subcategory = "Position Titles"
+    )
+    public static int ee4RecTimeout = 60;
 
     @Text(
             name = "Core Message",
@@ -146,10 +165,19 @@ public class LexiConfig extends Config {
     )
     public static String coreTitleMessage = "At Core!";
 
+    @Number(
+            name = "Core Title Timeout",
+            min = 20, max = 300,
+            description = "The number of seconds to wait after the last received Core message before rendering the title again",
+            step = 10,
+            category = "Dungeons", subcategory = "Position Titles"
+    )
+    public static int coreRecTimeout = 60;
+
     @Button(
             name = "Restore Position Title Defaults",    // name beside the button
             text = "Reset",
-            description = "Reset default messages for Position Titles",
+            description = "Reset defaults for Position Titles",
             category = "Dungeons", subcategory = "Position Titles"
     )
     static void resetPosTitles() {
@@ -158,6 +186,11 @@ public class LexiConfig extends Config {
         ee3TitleMessage = "At Early Enter 3!";
         ee4TitleMessage = "At Early Enter 4!";
         coreTitleMessage = "At Core!";
+        ssRecTimeout = 60;
+        ee2RecTimeout = 60;
+        ee3RecTimeout = 60;
+        ee4RecTimeout = 60;
+        coreRecTimeout = 60;
     };
 
     @Switch(
@@ -200,6 +233,15 @@ public class LexiConfig extends Config {
     public static String ssMessage = "At SS!";
 
     @Number(
+            name = "SS Send Timeout",
+            min = 20, max = 600,
+            description = "The number of seconds to wait after YOU last sent SS to send again",
+            step = 1,
+            category = "Dungeons", subcategory = "Simon Says"
+    )
+    public static int ssSendTimeout = 60;
+
+    @Number(
             name = "EE2 X", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 2")
     public static int ee2x = 55;
 
@@ -230,6 +272,15 @@ public class LexiConfig extends Config {
             category = "Dungeons", subcategory = "Early Enter 2"
     )
     public static String ee2Message = "At Early Enter 2!";
+
+    @Number(
+            name = "EE2 Send Timeout",
+            min = 20, max = 600,
+            description = "The number of seconds to wait after YOU last sent EE2 to send again",
+            step = 1,
+            category = "Dungeons", subcategory = "Early Enter 2"
+    )
+    public static int ee2SendTimeout = 60;
 
     @Number(
             name = "EE3 X", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 3")
@@ -264,6 +315,15 @@ public class LexiConfig extends Config {
     public static String ee3Message = "At Early Enter 3!";
 
     @Number(
+            name = "EE3 Send Timeout",
+            min = 20, max = 600,
+            description = "The number of seconds to wait after YOU last sent EE3 to send again",
+            step = 1,
+            category = "Dungeons", subcategory = "Early Enter 3"
+    )
+    public static int ee3SendTimeout = 60;
+
+    @Number(
             name = "EE4 X", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 4")
     public static int ee4x = 50;
 
@@ -296,6 +356,15 @@ public class LexiConfig extends Config {
     public static String ee4Message = "At Early Enter 4!";
 
     @Number(
+            name = "EE4 Send Timeout",
+            min = 20, max = 600,
+            description = "The number of seconds to wait after YOU last sent EE4 to send again",
+            step = 1,
+            category = "Dungeons", subcategory = "Early Enter 4"
+    )
+    public static int ee4SendTimeout = 60;
+
+    @Number(
             name = "Core X", min = -1000, max = 1000, category = "Dungeons", subcategory = "Core")
     public static int corex = 49;
 
@@ -326,6 +395,15 @@ public class LexiConfig extends Config {
             category = "Dungeons", subcategory = "Core"
     )
     public static String coreMessage = "At Core!";
+
+    @Number(
+            name = "Core Send Timeout",
+            min = 10, max = 600,
+            description = "The number of seconds to wait after YOU last sent Core to send again",
+            step = 1,
+            category = "Dungeons", subcategory = "Core"
+    )
+    public static int coreSendTimeout = 20;
 
     @Button(
             name = "Restore Send Positional Defaults",    // name beside the button
@@ -369,7 +447,85 @@ public class LexiConfig extends Config {
         corey2 = 118;
         corez2 = 60;
         coreMessage = "At Core!";
+        ssSendTimeout = 60;
+        ee2SendTimeout = 60;
+        ee3SendTimeout = 60;
+        ee4SendTimeout = 60;
+        coreSendTimeout = 60;
     };
+
+    @HUD(
+            name = "Melody Title",
+            category = "Dungeons",
+            subcategory = "Melody Title"
+    )
+    public static MelodyHud melodyHud = new MelodyHud();
+
+    @Number(
+            name = "Melody Title Display Time",
+            min = 2, max = 10,
+            description = "The number of seconds to display the title for after receiving a melody message",
+            step = 1,
+            category = "Dungeons", subcategory = "Melody Title"
+    )
+    public static int melodyTitleDisplayTime = 5;
+
+    @Number(
+            name = "Melody Title Timeout",
+            min = 2, max = 20,
+            description = "The number of seconds to wait after the last received melody message before rendering the title again",
+            step = 1,
+            category = "Dungeons", subcategory = "Melody Title"
+    )
+    public static int melodyRecTimeout = 5;
+
+    @Dropdown(
+            name = "Melody Title Color",
+            options = {"Black", "Dark Blue", "Dark Green", "Dark Aqua", "Dark Red", "Dark Purple", "Gold", "Gray", "Dark Gray", "Blue", "Green", "Aqua", "Red", "Light Purple", "Yellow", "White"},
+            description = "The color of the title that displays",
+            category = "Dungeons",
+            subcategory = "Melody Title",
+            size = 2
+    )
+    public static int melodyTitleColor = 11;
+
+    @Switch(
+            name = "Play Sound for Melody",
+            description = "Will play a sound when receiving melody messages",
+            category = "Dungeons",
+            subcategory = "Melody Title"
+    )
+    public static boolean recMelodySound = false;
+
+    @Slider(
+            name = "Melody Sound Volume",
+            description = "Volume of receive melody message sound",
+            category = "Dungeons",
+            subcategory = "Melody Title",
+            min = 0f,
+            max = 1f,
+            step = 0
+    )
+    public static float recMelodySoundVolume = .7f;
+
+    @Button(
+            name = "Melody Volume Test",
+            category = "Dungeons",
+            subcategory = "Melody Title",
+            text = "Test Sound",
+            size = 2
+    )
+    void demoMelodyTitleVolume() {
+        float prevMaster = mc.gameSettings.getSoundLevel(SoundCategory.MASTER);
+        mc.gameSettings.setSoundLevel(SoundCategory.MASTER, 1f);
+        float prevNote = mc.gameSettings.getSoundLevel(SoundCategory.RECORDS);
+        mc.gameSettings.setSoundLevel(SoundCategory.RECORDS, 1f);
+        mc.thePlayer.playSound("note.pling", recPosSoundVolume, .749154f);
+        mc.thePlayer.playSound("note.pling", recPosSoundVolume, 1.122462f);
+        mc.thePlayer.playSound("note.pling", recPosSoundVolume, 1.498307f);
+        mc.gameSettings.setSoundLevel(SoundCategory.MASTER, prevMaster);
+        mc.gameSettings.setSoundLevel(SoundCategory.RECORDS, prevNote);
+    }
 
     @HUD(
             name = "Dominus Hud",
@@ -423,14 +579,19 @@ public class LexiConfig extends Config {
         initialize();
         addDependency("testMessage", "testMode");
         addDependency("sendTestMessage", "testMode");
-        addDependency("positionTitleColor", "showPosTitle");
-        addDependency("positionTitleSize", "showPosTitle");
-        addDependency("posTitleUseCustomScreen", "showPosTitle");
-        addDependency("posTitleX", "showPosTitle");
-        addDependency("posTitleY", "showPosTitle");
-        addDependency("recPosSound", "showPosTitle");
-        addDependency("recPosSoundVolume", "showPosTitle");
-        addDependency("demoPosTitleVolume", "showPosTitle");
+
+        addDependency("posTitleDisplayTime", "posMessageHud");
+        addDependency("recPosSound", "posMessageHud");
+        addDependency("recPosSoundVolume", "posMessageHud");
+        addDependency("demoPosTitleVolume", "posMessageHud");
+        addDependency("positionTitleColor", "posMessageHud");
+
+        addDependency("melodyTitleDisplayTime", "melodyHud");
+        addDependency("melodyRecTimeout", "melodyHud");
+        addDependency("melodyTitleColor", "melodyHud");
+        addDependency("recMelodySound", "melodyHud");
+        addDependency("recMelodySoundVolume", "melodyHud");
+        addDependency("demoMelodyTitleVolume", "melodyHud");
     }
 }
 

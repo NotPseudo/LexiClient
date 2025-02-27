@@ -50,4 +50,10 @@ public class TextUtils {
         return sb.toString();
     }
 
+    public static String getColorCode(int colorOption) {
+        if (colorOption < 10 && colorOption > -1) return "§" + colorOption;
+        char color = (char) ('a' + (colorOption - 10));
+        return "§" + color;
+    }
+
 }
