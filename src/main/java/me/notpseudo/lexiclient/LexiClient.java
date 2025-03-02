@@ -4,6 +4,7 @@ import me.notpseudo.lexiclient.command.LexiClientCommand;
 import me.notpseudo.lexiclient.features.DominusTimer;
 import me.notpseudo.lexiclient.features.DumbMessages;
 import me.notpseudo.lexiclient.features.PositionMessages;
+import me.notpseudo.lexiclient.features.RelicSpawnTimer;
 import me.notpseudo.lexiclient.utils.SBInfo;
 import me.notpseudo.lexiclient.utils.TabListUtils;
 import me.notpseudo.lexiclient.utils.TitleUtils;
@@ -16,6 +17,8 @@ import cc.polyfrost.oneconfig.utils.commands.CommandManager;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The entrypoint of the Example Mod that initializes it.
@@ -31,6 +34,8 @@ public class LexiClient {
     // Sets the variables from `gradle.properties`. See the `blossom` config in `build.gradle.kts`.
 
     public static final String CHAT_PREFIX = "§f<§3LexiClient§f>§r";
+
+    public static final Logger LOGGER = LogManager.getLogger("@ID@");
 
     public static Minecraft mc;
 
@@ -51,6 +56,7 @@ public class LexiClient {
         MinecraftForge.EVENT_BUS.register(new SBInfo());
         MinecraftForge.EVENT_BUS.register(new TitleUtils());
         MinecraftForge.EVENT_BUS.register(new PositionMessages());
+        MinecraftForge.EVENT_BUS.register(new RelicSpawnTimer());
     }
 
     @SubscribeEvent
