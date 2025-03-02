@@ -7,9 +7,11 @@ import cc.polyfrost.oneconfig.config.Config;
 
 import cc.polyfrost.oneconfig.config.data.Mod;
 import cc.polyfrost.oneconfig.config.data.ModType;
+import me.notpseudo.lexiclient.features.RelicSpawnTimer;
 import me.notpseudo.lexiclient.hud.DominusHud;
 import me.notpseudo.lexiclient.hud.MelodyHud;
 import me.notpseudo.lexiclient.hud.PosMessageHud;
+import me.notpseudo.lexiclient.hud.RelicSpawnHud;
 import me.notpseudo.lexiclient.utils.ChatUtils;
 import net.minecraft.client.audio.SoundCategory;
 
@@ -53,8 +55,7 @@ public class LexiConfig extends Config {
             category = "Dungeons",
             subcategory = "Position Titles",
             min = 0f,
-            max = 1f,
-            step = 0
+            max = 1f
     )
     public static float recPosSoundVolume = .7f;
 
@@ -89,114 +90,11 @@ public class LexiConfig extends Config {
     )
     public static int positionTitleColor = 6;
 
-    @Text(
-            name = "SS Message",
-            placeholder = "At SS!",
-            description = "The message to look for from your teammates when they are at Simon Says",
-            category = "Dungeons", subcategory = "Position Titles"
-    )
-    public static String ssTitleMessage = "At SS!";
-
-    @Number(
-            name = "SS Title Timeout",
-            min = 20, max = 300,
-            description = "The number of seconds to wait after the last received SS message before rendering the title again",
-            step = 10,
-            category = "Dungeons", subcategory = "Position Titles"
-    )
-    public static int ssRecTimeout = 60;
-
-    @Text(
-            name = "EE2 Message",
-            placeholder = "At Early Enter 2!",
-            description = "The message to look for from your teammates when they are at Early Enter 2",
-            category = "Dungeons", subcategory = "Position Titles"
-    )
-    public static String ee2TitleMessage = "At Early Enter 2!";
-
-    @Number(
-            name = "EE2 Title Timeout",
-            min = 20, max = 300,
-            description = "The number of seconds to wait after the last received EE2 message before rendering the title again",
-            step = 10,
-            category = "Dungeons", subcategory = "Position Titles"
-    )
-    public static int ee2RecTimeout = 60;
-
-    @Text(
-            name = "EE3 Message",
-            placeholder = "At Early Enter 3!",
-            description = "The message to look for from your teammates when they are at Early Enter 3",
-            category = "Dungeons", subcategory = "Position Titles"
-    )
-    public static String ee3TitleMessage = "At Early Enter 3!";
-
-    @Number(
-            name = "EE3 Title Timeout",
-            min = 20, max = 300,
-            description = "The number of seconds to wait after the last received EE3 message before rendering the title again",
-            step = 10,
-            category = "Dungeons", subcategory = "Position Titles"
-    )
-    public static int ee3RecTimeout = 60;
-
-    @Text(
-            name = "EE4 Message",
-            placeholder = "At Early Enter 4!",
-            description = "The message to look for from your teammates when they are at Early Enter 4",
-            category = "Dungeons", subcategory = "Position Titles"
-    )
-    public static String ee4TitleMessage = "At Early Enter 4!";
-
-    @Number(
-            name = "EE4 Title Timeout",
-            min = 20, max = 300,
-            description = "The number of seconds to wait after the last received EE4 message before rendering the title again",
-            step = 10,
-            category = "Dungeons", subcategory = "Position Titles"
-    )
-    public static int ee4RecTimeout = 60;
-
-    @Text(
-            name = "Core Message",
-            placeholder = "At Core!",
-            description = "The message to look for from your teammates when they are at core",
-            category = "Dungeons", subcategory = "Position Titles"
-    )
-    public static String coreTitleMessage = "At Core!";
-
-    @Number(
-            name = "Core Title Timeout",
-            min = 20, max = 300,
-            description = "The number of seconds to wait after the last received Core message before rendering the title again",
-            step = 10,
-            category = "Dungeons", subcategory = "Position Titles"
-    )
-    public static int coreRecTimeout = 60;
-
-    @Button(
-            name = "Restore Position Title Defaults",    // name beside the button
-            text = "Reset",
-            description = "Reset defaults for Position Titles",
-            category = "Dungeons", subcategory = "Position Titles"
-    )
-    static void resetPosTitles() {
-        ssTitleMessage = "At SS!";
-        ee2TitleMessage = "At Early Enter 2!";
-        ee3TitleMessage = "At Early Enter 3!";
-        ee4TitleMessage = "At Early Enter 4!";
-        coreTitleMessage = "At Core!";
-        ssRecTimeout = 60;
-        ee2RecTimeout = 60;
-        ee3RecTimeout = 60;
-        ee4RecTimeout = 60;
-        coreRecTimeout = 60;
-    };
-
     @Switch(
             name = "Send Positional Messages",
             description = "Automatically send messages when your player goes within coordinates",
-            category = "Dungeons"
+            category = "Dungeons",
+            subcategory = "Send Positional Messages"
     )
     public static boolean sendPosMessages = false;
 
@@ -409,7 +307,8 @@ public class LexiConfig extends Config {
             name = "Restore Send Positional Defaults",    // name beside the button
             text = "Reset",
             description = "Reset default coordinates and messages for Send Positional Messages", // text on the button itself
-            category = "Dungeons"
+            category = "Dungeons",
+            subcategory = "Send Positional Messages"
     )
     static void resetSendPosMessages() {    // using a lambda to create the runnable interface.
         ssx = 107;
@@ -528,8 +427,37 @@ public class LexiConfig extends Config {
     }
 
     @HUD(
+            name = "Relic Spawn Timer",
+            category = "Dungeons",
+            subcategory = "Relic Spawn Timer"
+    )
+    public static RelicSpawnHud relicSpawnHud = new RelicSpawnHud();
+
+    @Number(
+            name = "Relic Spawn Ticks",
+            description = "The number of ticks after Necron defeat message until relics spawn",
+            category = "Dungeons",
+            subcategory = "Relic Spawn Timer",
+            min = 20, max = 200, step = 20
+    )
+    public static int relicSpawnTicks = 84;
+
+    @Switch(
+            name = "Display Time in Seconds",
+            description = "If enabled, will display the spawn time in seconds. If disabled, will display time in ticks",
+            category = "Dungeons",
+            subcategory = "Relic Spawn Timer"
+    )
+    public static boolean relicSpawnInSecs = false;
+
+    @Button(
+            name = "Test Relic Timer", text = "Test", category = "Dungeons", subcategory = "Relic Spawn Timer"
+    )
+    Runnable testRelicTimer = RelicSpawnTimer::testRelicSpawnTimer;
+
+    @HUD(
             name = "Dominus Hud",
-            category = "Hud"
+            category = "Crimson Stack"
     )
     public static DominusHud dominusHud = new DominusHud();
 
@@ -579,19 +507,6 @@ public class LexiConfig extends Config {
         initialize();
         addDependency("testMessage", "testMode");
         addDependency("sendTestMessage", "testMode");
-
-        addDependency("posTitleDisplayTime", "posMessageHud");
-        addDependency("recPosSound", "posMessageHud");
-        addDependency("recPosSoundVolume", "posMessageHud");
-        addDependency("demoPosTitleVolume", "posMessageHud");
-        addDependency("positionTitleColor", "posMessageHud");
-
-        addDependency("melodyTitleDisplayTime", "melodyHud");
-        addDependency("melodyRecTimeout", "melodyHud");
-        addDependency("melodyTitleColor", "melodyHud");
-        addDependency("recMelodySound", "melodyHud");
-        addDependency("recMelodySoundVolume", "melodyHud");
-        addDependency("demoMelodyTitleVolume", "melodyHud");
     }
 }
 
