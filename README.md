@@ -10,6 +10,8 @@ Massive credit given to [DulkirMod](https://github.com/inglettronald/DulkirMod/)
 - Dominus Stack Timer
 - Auto Send Positional Messages
 - Title For Positional Messages
+- Title for Melody Messages
+- Customizable Relic Spawn Countdown Timer
 
 ### Stupid
 - Rat messages
