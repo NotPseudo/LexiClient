@@ -21,7 +21,7 @@ public class PosMessageHud extends TextHud {
         if (example) {
             EntityPlayerSP player = mc.thePlayer;
             String username = player == null ? "Steve" : player.getName();
-            lines.add(getColorCode(LexiConfig.positionTitleColor) + username + " is " + LexiConfig.ee2TitleMessage);
+            lines.add(getColorCode(LexiConfig.positionTitleColor) + username + " is At Early Enter 2!");
             return;
         }
         if (PositionMessages.getEndEETime() < System.currentTimeMillis()) return;

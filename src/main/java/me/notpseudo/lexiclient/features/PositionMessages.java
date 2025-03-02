@@ -16,7 +16,7 @@ import static me.notpseudo.lexiclient.utils.TextUtils.*;
 public class PositionMessages {
 
     private static long ssLastSend, ee2LastSend, ee3LastSend, ee4LastSend, coreLastSend;
-    private static long lastSS, lastEE2, lastEE3, lastEE4, lastCore, lastMelody = 0;
+    private static long lastMelody = 0;
 
     private static long endEETime = 0;
 
@@ -103,68 +103,22 @@ public class PositionMessages {
             String username = matcher.group(1);
             if (username.equals(mc.thePlayer.getName())) return;
             String message = matcher.group(2);
+            String lowercase = message.toLowerCase();
             if (posEnabled) {
-                if (message.equalsIgnoreCase(LexiConfig.ssTitleMessage)) {
-                    handleEETitle(1, username);
-                } else if (message.equalsIgnoreCase(LexiConfig.ee2TitleMessage)) {
-                    handleEETitle(2, username);
-                } else if (message.equalsIgnoreCase(LexiConfig.ee3TitleMessage)) {
-                    handleEETitle(3, username);
-                } else if (message.equalsIgnoreCase(LexiConfig.ee4TitleMessage)) {
-                    handleEETitle(4, username);
-                } else if (message.equalsIgnoreCase(LexiConfig.coreTitleMessage)) {
-                    handleEETitle(5, username);
+                if (lowercase.startsWith("at ") || lowercase.startsWith("in ")) {
+                    handleEETitle(username, message);
                 }
             }
             if (melodyEnabled) {
-                if (message.toLowerCase().contains("melody")) {
+                if (lowercase.contains("melody")) {
                     handleMelodyTitle(username);
                 }
             }
         }
     }
 
-    private static void handleEETitle(int part, String username) {
-        String place = "somehow breaking this feature";
-        long curTime = System.currentTimeMillis();
-        switch (part) {
-            case 1:
-                if (curTime - lastSS < (LexiConfig.ssRecTimeout * 1000L)) {
-                    return;
-                }
-                place = LexiConfig.ssMessage;
-                lastSS = curTime;
-                break;
-            case 2:
-                if (curTime - lastEE2 < (LexiConfig.ee2RecTimeout * 1000L)) {
-                    return;
-                }
-                place = LexiConfig.ee2Message;
-                lastEE2 = curTime;
-                break;
-            case 3:
-                if (curTime - lastEE3 < (LexiConfig.ee3RecTimeout * 1000L)) {
-                    return;
-                }
-                place = LexiConfig.ee3Message;
-                lastEE3 = curTime;
-                break;
-            case 4:
-                if (curTime - lastEE4 < (LexiConfig.ee4RecTimeout * 1000L)) {
-                    return;
-                }
-                place = LexiConfig.ee4Message;
-                lastEE4 = curTime;
-                break;
-            case 5:
-                if (curTime - lastCore < (LexiConfig.coreRecTimeout * 1000L)) {
-                    return;
-                }
-                place = LexiConfig.coreMessage;
-                lastCore = curTime;
-                break;
-        }
-        eeTitle = getColorCode(LexiConfig.positionTitleColor) + username + " is " + place;
+    private static void handleEETitle(String username, String message) {
+        eeTitle = getColorCode(LexiConfig.positionTitleColor) + username + " is " + message;
         endEETime = System.currentTimeMillis() + (LexiConfig.posTitleDisplayTime * 1000L);
         if (LexiConfig.recPosSound) SoundUtils.playPling(LexiConfig.recPosSoundVolume, 1f); // F sharp
     }
@@ -194,11 +148,6 @@ public class PositionMessages {
         ee3LastSend = 0;
         ee4LastSend = 0;
         coreLastSend = 0;
-        lastSS = 0;
-        lastEE2 = 0;
-        lastEE3 = 0;
-        lastEE4 = 0;
-        lastCore = 0;
         endEETime = 0;
         endMelodyTime = 0;
     }
