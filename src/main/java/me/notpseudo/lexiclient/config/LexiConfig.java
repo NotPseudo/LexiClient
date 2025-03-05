@@ -440,7 +440,7 @@ public class LexiConfig extends Config {
             subcategory = "Relic Spawn Timer",
             min = 20, max = 200, step = 20
     )
-    public static int relicSpawnTicks = 84;
+    public static int relicSpawnTicks = 42;
 
     @Switch(
             name = "Display Time in Seconds",
