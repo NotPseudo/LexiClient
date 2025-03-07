@@ -7,6 +7,7 @@ import cc.polyfrost.oneconfig.config.Config;
 
 import cc.polyfrost.oneconfig.config.data.Mod;
 import cc.polyfrost.oneconfig.config.data.ModType;
+import me.notpseudo.lexiclient.features.PositionMessages;
 import me.notpseudo.lexiclient.features.RelicSpawnTimer;
 import me.notpseudo.lexiclient.hud.DominusHud;
 import me.notpseudo.lexiclient.hud.MelodyHud;
@@ -98,259 +99,26 @@ public class LexiConfig extends Config {
     )
     public static boolean sendPosMessages = false;
 
-    @Number(
-            name = "SS X", min = -1000, max = 1000, category = "Dungeons", subcategory = "Simon Says")
-    public static int ssx = 107;
-
-    @Number(
-            name = "SS Y", min = -1000, max = 1000, category = "Dungeons", subcategory = "Simon Says")
-    public static int ssy = 120;
-
-    @Number(
-            name = "SS Z", min = -1000, max = 1000, category = "Dungeons", subcategory = "Simon Says")
-    public static int ssz = 93;
-
-    @Number(
-            name = "SS X2", min = -1000, max = 1000, category = "Dungeons", subcategory = "Simon Says")
-    public static int ssx2 = 110;
-
-    @Number(
-            name = "SS Y2", min = -1000, max = 1000, category = "Dungeons", subcategory = "Simon Says")
-    public static int ssy2 = 120;
-
-    @Number(
-            name = "SS Z2", min = -1000, max = 1000, category = "Dungeons", subcategory = "Simon Says")
-    public static int ssz2 = 94;
-
-    @Text(
-            name = "SS Message",
-            placeholder = "At SS!",
-            description = "The message to send when you are at your Simon Says coordinates",
-            category = "Dungeons", subcategory = "Simon Says"
+    @Button(
+            name = "Reload Positional Messages",    // name beside the button
+            text = "Reload",
+            description = "Reload Positional Messages after you change the config file", // text on the button itself
+            category = "Dungeons",
+            subcategory = "Send Positional Messages"
     )
-    public static String ssMessage = "At SS!";
-
-    @Number(
-            name = "SS Send Timeout",
-            min = 20, max = 600,
-            description = "The number of seconds to wait after YOU last sent SS to send again",
-            step = 1,
-            category = "Dungeons", subcategory = "Simon Says"
-    )
-    public static int ssSendTimeout = 60;
-
-    @Number(
-            name = "EE2 X", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 2")
-    public static int ee2x = 55;
-
-    @Number(
-            name = "EE2 Y", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 2")
-    public static int ee2y = 107;
-
-    @Number(
-            name = "EE2 Z", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 2")
-    public static int ee2z = 129;
-
-    @Number(
-            name = "EE2 X2", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 2")
-    public static int ee2x2 = 60;
-
-    @Number(
-            name = "EE2 Y2", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 2")
-    public static int ee2y2 = 110;
-
-    @Number(
-            name = "EE2 Z2", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 2")
-    public static int ee2z2 = 133;
-
-    @Text(
-            name = "EE2 Message",
-            placeholder = "At Early Enter 2!",
-            description = "The message to send when you are at your Early Enter 2 coordinates",
-            category = "Dungeons", subcategory = "Early Enter 2"
-    )
-    public static String ee2Message = "At Early Enter 2!";
-
-    @Number(
-            name = "EE2 Send Timeout",
-            min = 20, max = 600,
-            description = "The number of seconds to wait after YOU last sent EE2 to send again",
-            step = 1,
-            category = "Dungeons", subcategory = "Early Enter 2"
-    )
-    public static int ee2SendTimeout = 60;
-
-    @Number(
-            name = "EE3 X", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 3")
-    public static int ee3x = 5;
-
-    @Number(
-            name = "EE3 Y", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 3")
-    public static int ee3y = 110;
-
-    @Number(
-            name = "EE3 Z", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 3")
-    public static int ee3z = 103;
-
-    @Number(
-            name = "EE3 X2", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 3")
-    public static int ee3x2 = 7;
-
-    @Number(
-            name = "EE3 Y2", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 3")
-    public static int ee3y2 = 115;
-
-    @Number(
-            name = "EE3 Z2", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 3")
-    public static int ee3z2 = 107;
-
-    @Text(
-            name = "EE3 Message",
-            placeholder = "At Early Enter 3!",
-            description = "The message to send when you are at your Early Enter 3 coordinates",
-            category = "Dungeons", subcategory = "Early Enter 3"
-    )
-    public static String ee3Message = "At Early Enter 3!";
-
-    @Number(
-            name = "EE3 Send Timeout",
-            min = 20, max = 600,
-            description = "The number of seconds to wait after YOU last sent EE3 to send again",
-            step = 1,
-            category = "Dungeons", subcategory = "Early Enter 3"
-    )
-    public static int ee3SendTimeout = 60;
-
-    @Number(
-            name = "EE4 X", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 4")
-    public static int ee4x = 50;
-
-    @Number(
-            name = "EE4 Y", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 4")
-    public static int ee4y = 113;
-
-    @Number(
-            name = "EE4 Z", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 4")
-    public static int ee4z = 50;
-
-    @Number(
-            name = "EE4 X2", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 4")
-    public static int ee4x2 = 58;
-
-    @Number(
-            name = "EE4 Y2", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 4")
-    public static int ee4y2 = 117;
-
-    @Number(
-            name = "EE4 Z2", min = -1000, max = 1000, category = "Dungeons", subcategory = "Early Enter 4")
-    public static int ee4z2 = 54;
-
-    @Text(
-            name = "EE4 Message",
-            placeholder = "At Early Enter 4!",
-            description = "The message to send when you are at your Early Enter 4 coordinates",
-            category = "Dungeons", subcategory = "Early Enter 4"
-    )
-    public static String ee4Message = "At Early Enter 4!";
-
-    @Number(
-            name = "EE4 Send Timeout",
-            min = 20, max = 600,
-            description = "The number of seconds to wait after YOU last sent EE4 to send again",
-            step = 1,
-            category = "Dungeons", subcategory = "Early Enter 4"
-    )
-    public static int ee4SendTimeout = 60;
-
-    @Number(
-            name = "Core X", min = -1000, max = 1000, category = "Dungeons", subcategory = "Core")
-    public static int corex = 49;
-
-    @Number(
-            name = "Core Y", min = -1000, max = 1000, category = "Dungeons", subcategory = "Core")
-    public static int corey = 111;
-
-    @Number(
-            name = "Core Z", min = -1000, max = 1000, category = "Dungeons", subcategory = "Core")
-    public static int corez = 55;
-
-    @Number(
-            name = "Core X", min = -1000, max = 1000, category = "Dungeons", subcategory = "Core")
-    public static int corex2 = 60;
-
-    @Number(
-            name = "Core Y", min = -1000, max = 1000, category = "Dungeons", subcategory = "Core")
-    public static int corey2 = 118;
-
-    @Number(
-            name = "Core Z", min = -1000, max = 1000, category = "Dungeons", subcategory = "Core")
-    public static int corez2 = 60;
-
-    @Text(
-            name = "Core Message",
-            placeholder = "At Core!",
-            description = "The message to send when you are at your Core coordinates",
-            category = "Dungeons", subcategory = "Core"
-    )
-    public static String coreMessage = "At Core!";
-
-    @Number(
-            name = "Core Send Timeout",
-            min = 10, max = 600,
-            description = "The number of seconds to wait after YOU last sent Core to send again",
-            step = 1,
-            category = "Dungeons", subcategory = "Core"
-    )
-    public static int coreSendTimeout = 20;
+    static void reloadPosMessages() {    // using a lambda to create the runnable interface.
+        PositionMessages.loadPosMessageConfig();
+    };
 
     @Button(
-            name = "Restore Send Positional Defaults",    // name beside the button
+            name = "Restore Default Positional Messages",    // name beside the button
             text = "Reset",
             description = "Reset default coordinates and messages for Send Positional Messages", // text on the button itself
             category = "Dungeons",
             subcategory = "Send Positional Messages"
     )
     static void resetSendPosMessages() {    // using a lambda to create the runnable interface.
-        ssx = 107;
-        ssy = 120;
-        ssz = 93;
-        ssx2 = 110;
-        ssy2 = 120;
-        ssz2 = 94;
-        ssMessage = "At SS!";
-        ee2x = 55;
-        ee2y = 107;
-        ee2z = 129;
-        ee2x2 = 60;
-        ee2y2 = 110;
-        ee2z2 = 133;
-        ee2Message = "At Early Enter 2!";
-        ee3x = 5;
-        ee3y = 110;
-        ee3z = 103;
-        ee3x2 = 7;
-        ee3y2 = 115;
-        ee3z2 = 107;
-        ee3Message = "At Early Enter 3!";
-        ee4x = 50;
-        ee4y = 113;
-        ee4z = 50;
-        ee4x2 = 58;
-        ee4y2 = 117;
-        ee4z2 = 54;
-        ee4Message = "At Early Enter 4!";
-        corex = 49;
-        corey = 111;
-        corez = 55;
-        corex2 = 60;
-        corey2 = 118;
-        corez2 = 60;
-        coreMessage = "At Core!";
-        ssSendTimeout = 60;
-        ee2SendTimeout = 60;
-        ee3SendTimeout = 60;
-        ee4SendTimeout = 60;
-        coreSendTimeout = 60;
+        PositionMessages.saveDefaultPosMessages();
     };
 
     @HUD(
@@ -505,6 +273,8 @@ public class LexiConfig extends Config {
     public LexiConfig() {
         super(new Mod(LexiClient.NAME, ModType.SKYBLOCK), LexiClient.MODID + ".json");
         initialize();
+        addDependency("reloadPosMessages", "sendPosMessages");
+        addDependency("resetSendPosMessages", "sendPosMessages");
         addDependency("testMessage", "testMode");
         addDependency("sendTestMessage", "testMode");
     }
