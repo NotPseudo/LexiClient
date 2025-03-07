@@ -1,5 +1,9 @@
 package me.notpseudo.lexiclient.features;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import me.notpseudo.lexiclient.LexiClient;
 import me.notpseudo.lexiclient.config.LexiConfig;
 import me.notpseudo.lexiclient.utils.*;
 import net.minecraft.util.AxisAlignedBB;
@@ -7,6 +11,10 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.io.*;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,45 +50,60 @@ public class PositionMessages {
         return melodyTitle;
     }
 
+    private static final File CONFIG_FILE = new File(mc.mcDataDir, "config/positional_messages.json");
+
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    private static List<PositionalMessage> posMessages = new ArrayList<>();
+
+    public static void loadPosMessageConfig() {
+        if (!CONFIG_FILE.exists()) {
+            saveDefaultPosMessages();
+        }
+        try (FileReader reader = new FileReader(CONFIG_FILE)) {
+            Type listType = new TypeToken<List<PositionalMessage>>() {}.getType();
+            posMessages = GSON.fromJson(reader, listType);
+        } catch (FileNotFoundException e) {
+            LexiClient.LOGGER.error("Positional messages config file not found!\n" + e.getMessage());
+        } catch (IOException e) {
+            LexiClient.LOGGER.error("Error reading positional messages config file!\n" + e.getMessage());
+        }
+    }
+
+    private static void savePosMessages() {
+        try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
+            GSON.toJson(posMessages, writer);
+        } catch (IOException e) {
+            LexiClient.LOGGER.error("Error writing to positional messages JSON file " + e.getMessage());
+        }
+    }
+
+    public static void saveDefaultPosMessages() {
+        posMessages.add(new PositionalMessage(107, 120, 93, 110, 120, 94, "At SS!", 60));
+        posMessages.add(new PositionalMessage(55, 107, 129, 60, 110, 133, "At Early Enter 2!", 60));
+        posMessages.add(new PositionalMessage(5, 110, 103, 7, 115, 107, "At Early Enter 3!", 60));
+        posMessages.add(new PositionalMessage(50, 113, 50, 58, 117, 54, "At Core!", 10));
+        posMessages.add(new PositionalMessage(49, 111, 55, 60, 118, 60, "In Goldor Tunnel!", 20));
+        posMessages.add(new PositionalMessage(67,109,122,68,109,123, "At Early Enter 2 Safe Spot!", 60));
+        posMessages.add(new PositionalMessage(18,120,92,19,121,93, "At Early Enter 3 Safe Spot!", 60));
+        posMessages.add(new PositionalMessage(62,127,34,64,127,36, "At I4!", 60));
+        //posMessages.add(new PositionalMessage(50,70,50,58,70,54, "At Mid!", 60));
+        savePosMessages();
+    }
+
     public static void checkPosition() {
         if (!LexiConfig.sendPosMessages) return;
         if (!SBInfo.getMode().equals("dungeon") && !LexiConfig.testMode) return;
         if (mc.thePlayer == null) return;
         Vec3 posVec = mc.thePlayer.getPositionVector();
         long curTime = System.currentTimeMillis();
-        if (curTime - ssLastSend > (LexiConfig.ssSendTimeout * 1000L)) {
-            if (isVecInAABB(posVec, new AxisAlignedBB(LexiConfig.ssx, LexiConfig.ssy, LexiConfig.ssz, LexiConfig.ssx2, LexiConfig.ssy2, LexiConfig.ssz2))) {
-                ChatUtils.sendPartyChatMessage(LexiConfig.ssMessage);
-                ssLastSend = curTime;
-                return;
-            }
-        }
-        if (curTime - ee2LastSend > (LexiConfig.ee2SendTimeout * 1000L)) {
-            if (isVecInAABB(posVec, new AxisAlignedBB(LexiConfig.ee2x, LexiConfig.ee2y, LexiConfig.ee2z, LexiConfig.ee2x2, LexiConfig.ee2y2, LexiConfig.ee2z2))) {
-                ChatUtils.sendPartyChatMessage(LexiConfig.ee2Message);
-                ee2LastSend = curTime;
-                return;
-            }
-        }
-        if (curTime - ee3LastSend > (LexiConfig.ee3SendTimeout * 1000L)) {
-            if (isVecInAABB(posVec, new AxisAlignedBB(LexiConfig.ee3x, LexiConfig.ee3y, LexiConfig.ee3z, LexiConfig.ee3x2, LexiConfig.ee3y2, LexiConfig.ee3z2))) {
-                ChatUtils.sendPartyChatMessage(LexiConfig.ee3Message);
-                ee3LastSend = curTime;
-                return;
-            }
-        }
-        if (curTime - ee4LastSend > (LexiConfig.ee4SendTimeout * 1000L)) {
-            if (isVecInAABB(posVec, new AxisAlignedBB(LexiConfig.ee4x, LexiConfig.ee4y, LexiConfig.ee4z, LexiConfig.ee4x2, LexiConfig.ee4y2, LexiConfig.ee4z2))) {
-                ChatUtils.sendPartyChatMessage(LexiConfig.ee4Message);
-                ee4LastSend = curTime;
-                return;
-            }
-        }
-        if (curTime - coreLastSend > (LexiConfig.coreSendTimeout * 1000L)) {
-            if (isVecInAABB(posVec, new AxisAlignedBB(LexiConfig.corex, LexiConfig.corey, LexiConfig.corez, LexiConfig.corex2, LexiConfig.corey2, LexiConfig.corez2))) {
-                ChatUtils.sendPartyChatMessage(LexiConfig.coreMessage);
-                coreLastSend = curTime;
-                return;
+        for (PositionalMessage pm : posMessages) {
+            if (curTime - pm.getLastSentTime() > (pm.getTimeout() * 1000L)) {
+                if (isVecInAABB(posVec, pm.getArea())) {
+                    ChatUtils.sendPartyChatMessage(pm.getMessage());
+                    pm.setLastSentTime(curTime);
+                    return;
+                }
             }
         }
     }
