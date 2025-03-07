@@ -79,6 +79,7 @@ public class PositionMessages {
     }
 
     public static void saveDefaultPosMessages() {
+        posMessages.clear();
         posMessages.add(new PositionalMessage(106, 120, 89, 110, 121, 99, "At SS!", 60));
         posMessages.add(new PositionalMessage(48, 109, 125, 60, 110, 135, "At Early Enter 2!", 60));
         posMessages.add(new PositionalMessage(44, 109, 120, 50, 109, 123, "At Early Enter 2 Safe Spot!", 60));
