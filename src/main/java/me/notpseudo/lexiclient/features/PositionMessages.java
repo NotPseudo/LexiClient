@@ -50,7 +50,7 @@ public class PositionMessages {
         return melodyTitle;
     }
 
-    private static final File CONFIG_FILE = new File(mc.mcDataDir, "config/positional_messages.json");
+    private static final File CONFIG_FILE = new File(mc.mcDataDir, "config/lexiclient/positional_messages.json");
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -71,7 +71,7 @@ public class PositionMessages {
     }
 
     private static void savePosMessages() {
-        try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
+        try (FileWriter writer = new FileWriter(CONFIG_FILE, false)) {
             GSON.toJson(posMessages, writer);
         } catch (IOException e) {
             LexiClient.LOGGER.error("Error writing to positional messages JSON file " + e.getMessage());
@@ -79,14 +79,17 @@ public class PositionMessages {
     }
 
     public static void saveDefaultPosMessages() {
-        posMessages.add(new PositionalMessage(107, 120, 93, 110, 120, 94, "At SS!", 60));
-        posMessages.add(new PositionalMessage(55, 107, 129, 60, 110, 133, "At Early Enter 2!", 60));
-        posMessages.add(new PositionalMessage(5, 110, 103, 7, 115, 107, "At Early Enter 3!", 60));
+        posMessages.add(new PositionalMessage(106, 120, 89, 110, 121, 99, "At SS!", 60));
+        posMessages.add(new PositionalMessage(48, 109, 125, 60, 110, 135, "At Early Enter 2!", 60));
+        posMessages.add(new PositionalMessage(44, 109, 120, 50, 109, 123, "At Early Enter 2 Safe Spot!", 60));
+        posMessages.add(new PositionalMessage(5, 110, 103, 7, 115, 107, "At Early Enter 3 Top!", 60));
+        posMessages.add(new PositionalMessage(0, 109, 98, 3, 109, 107, "At Early Enter 3 Bottom!", 60));
+        posMessages.add(new PositionalMessage(17,120,91,19,122,98, "At Early Enter 3 Safe Spot!", 60));
         posMessages.add(new PositionalMessage(50, 113, 50, 58, 117, 54, "At Core!", 10));
         posMessages.add(new PositionalMessage(49, 111, 55, 60, 118, 60, "In Goldor Tunnel!", 20));
-        posMessages.add(new PositionalMessage(67,109,122,68,109,123, "At Early Enter 2 Safe Spot!", 60));
-        posMessages.add(new PositionalMessage(18,120,92,19,121,93, "At Early Enter 3 Safe Spot!", 60));
-        posMessages.add(new PositionalMessage(62,127,34,64,127,36, "At I4!", 60));
+        posMessages.add(new PositionalMessage(47,63,69,61,66,83, "At Mid!", 60));
+        posMessages.add(new PositionalMessage(61,126,34,65,128,37, "At I4!", 60));
+
         //posMessages.add(new PositionalMessage(50,70,50,58,70,54, "At Mid!", 60));
         savePosMessages();
     }
