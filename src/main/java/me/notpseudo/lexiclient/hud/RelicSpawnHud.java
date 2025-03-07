@@ -19,8 +19,8 @@ public class RelicSpawnHud extends TextHud {
 
         @Override
     protected void getLines(List<String> lines, boolean example) {
-        int showTicks = Math.max(RelicSpawnTimer.getTicksLeft(), 0);
         if (example || RelicSpawnTimer.stillCounting()) {
+            int showTicks = Math.max(RelicSpawnTimer.getTicksLeft(), 0);
             if (LexiConfig.relicSpawnInSecs) {
                 lines.add(String.format("%.2fs", (showTicks * .05)));
             } else {
