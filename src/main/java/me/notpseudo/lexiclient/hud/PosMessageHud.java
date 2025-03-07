@@ -17,6 +17,11 @@ public class PosMessageHud extends TextHud {
     }
 
     @Override
+    public boolean shouldDrawBackground() {
+        return false;
+    }
+
+    @Override
     protected void getLines(List<String> lines, boolean example) {
         if (example) {
             EntityPlayerSP player = mc.thePlayer;

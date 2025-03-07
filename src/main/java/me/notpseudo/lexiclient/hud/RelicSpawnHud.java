@@ -13,6 +13,11 @@ public class RelicSpawnHud extends TextHud {
     }
 
     @Override
+    public boolean shouldDrawBackground() {
+        return false;
+    }
+
+        @Override
     protected void getLines(List<String> lines, boolean example) {
         int showTicks = Math.max(RelicSpawnTimer.getTicksLeft(), 0);
         if (example || RelicSpawnTimer.stillCounting()) {
