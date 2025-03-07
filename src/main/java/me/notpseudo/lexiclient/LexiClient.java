@@ -59,6 +59,7 @@ public class LexiClient {
         MinecraftForge.EVENT_BUS.register(new PositionMessages());
         MinecraftForge.EVENT_BUS.register(new RelicSpawnTimer());
         MinecraftForge.EVENT_BUS.register(new EventDispatcher());
+        PositionMessages.loadPosMessageConfig();
     }
 
     @SubscribeEvent
