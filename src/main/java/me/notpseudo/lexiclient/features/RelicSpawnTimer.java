@@ -2,6 +2,8 @@ package me.notpseudo.lexiclient.features;
 
 import me.notpseudo.lexiclient.LexiClient;
 import me.notpseudo.lexiclient.config.LexiConfig;
+import me.notpseudo.lexiclient.events.PacketEvent;
+import me.notpseudo.lexiclient.events.ServerTickEvent;
 import me.notpseudo.lexiclient.utils.SBInfo;
 import me.notpseudo.lexiclient.utils.TextUtils;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -38,7 +40,7 @@ public class RelicSpawnTimer {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onTick(ServerTickEvent event) {
         if (!continueUpdate) return;
         if (ticksLeft-- <= -40) {
             reset();
@@ -46,7 +48,7 @@ public class RelicSpawnTimer {
     }
 
     public static void testRelicSpawnTimer() {
-        continueUpdate = true;
+        if (!continueUpdate) continueUpdate = true;
     }
 
     public static int getTicksLeft() {
