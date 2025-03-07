@@ -62,6 +62,7 @@ public class PositionMessages {
         }
         try (FileReader reader = new FileReader(CONFIG_FILE)) {
             Type listType = new TypeToken<List<PositionalMessage>>() {}.getType();
+            posMessages.clear();
             posMessages = GSON.fromJson(reader, listType);
         } catch (FileNotFoundException e) {
             LexiClient.LOGGER.error("Positional messages config file not found!\n" + e.getMessage());
