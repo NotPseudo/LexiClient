@@ -46,7 +46,7 @@ public class PositionalMessage {
     }
 
     public int getTimeout() {
-        return timeout;
+        return Math.max(5, timeout);
     }
 
     public long getLastSentTime() {
