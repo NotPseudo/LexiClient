@@ -42,7 +42,7 @@ public class RelicSpawnTimer {
     @SubscribeEvent
     public void onTick(ServerTickEvent event) {
         if (!continueUpdate) return;
-        if (ticksLeft-- <= -40) {
+        if (ticksLeft-- <= -25) {
             reset();
         }
     }
