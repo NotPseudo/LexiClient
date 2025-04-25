@@ -10,18 +10,13 @@ import java.util.List;
 import static me.notpseudo.lexiclient.LexiClient.mc;
 import static me.notpseudo.lexiclient.utils.TextUtils.*;
 
-public class MelodyHud extends TextHud {
+public class MelodyHud extends NotificationHud {
 
     public MelodyHud() {
-        super(false);
+        super();
     }
 
     @Override
-    public boolean shouldDrawBackground() {
-        return false;
-    }
-
-        @Override
     protected void getLines(List<String> lines, boolean example) {
         if (example) {
             EntityPlayerSP player = mc.thePlayer;

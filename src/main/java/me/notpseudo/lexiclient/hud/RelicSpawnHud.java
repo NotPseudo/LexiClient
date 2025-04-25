@@ -6,18 +6,13 @@ import me.notpseudo.lexiclient.features.RelicSpawnTimer;
 
 import java.util.List;
 
-public class RelicSpawnHud extends TextHud {
+public class RelicSpawnHud extends NotificationHud {
 
     public RelicSpawnHud() {
-        super(false);
+        super();
     }
 
     @Override
-    public boolean shouldDrawBackground() {
-        return false;
-    }
-
-        @Override
     protected void getLines(List<String> lines, boolean example) {
         if (example || RelicSpawnTimer.stillCounting()) {
             int showTicks = Math.max(RelicSpawnTimer.getTicksLeft(), 0);

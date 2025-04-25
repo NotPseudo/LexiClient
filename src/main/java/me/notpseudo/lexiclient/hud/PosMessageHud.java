@@ -10,15 +10,10 @@ import java.util.List;
 import static me.notpseudo.lexiclient.LexiClient.mc;
 import static me.notpseudo.lexiclient.utils.TextUtils.*;
 
-public class PosMessageHud extends TextHud {
+public class PosMessageHud extends NotificationHud {
 
     public PosMessageHud() {
-        super(false);
-    }
-
-    @Override
-    public boolean shouldDrawBackground() {
-        return false;
+        super();
     }
 
     @Override
