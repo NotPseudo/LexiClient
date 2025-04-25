@@ -147,7 +147,7 @@ public class PositionMessages {
 
     private static void handleEETitle(String username, String message) {
         eeTitle = getColorCode(LexiConfig.positionTitleColor) + username + " is " + message;
-        endEETime = System.currentTimeMillis() + (LexiConfig.posTitleDisplayTime * 1000L);
+        endEETime = System.currentTimeMillis() + (long) (LexiConfig.posTitleDisplayTime * 1000L);
         if (LexiConfig.recPosSound) SoundUtils.playPling(LexiConfig.recPosSoundVolume, 1f); // F sharp
     }
 
@@ -156,7 +156,7 @@ public class PositionMessages {
         if (curTime - lastMelody < (LexiConfig.melodyRecTimeout * 1000L)) return;
         lastMelody = curTime;
         melodyTitle = getColorCode(LexiConfig.melodyTitleColor) + username + " has Melody";
-        endMelodyTime = System.currentTimeMillis() + (LexiConfig.melodyTitleDisplayTime * 1000L);
+        endMelodyTime = System.currentTimeMillis() + (long) (LexiConfig.melodyTitleDisplayTime * 1000L);
         if (LexiConfig.recMelodySound) {
             SoundUtils.playPling(LexiConfig.recMelodySoundVolume, .749154f); // C sharp
             SoundUtils.playPling(LexiConfig.recMelodySoundVolume, 1.122462f); // G sharp

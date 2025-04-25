@@ -1,15 +1,12 @@
 package me.notpseudo.lexiclient.features;
 
-import me.notpseudo.lexiclient.LexiClient;
 import me.notpseudo.lexiclient.config.LexiConfig;
-import me.notpseudo.lexiclient.events.PacketEvent;
 import me.notpseudo.lexiclient.events.ServerTickEvent;
 import me.notpseudo.lexiclient.utils.SBInfo;
 import me.notpseudo.lexiclient.utils.TextUtils;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

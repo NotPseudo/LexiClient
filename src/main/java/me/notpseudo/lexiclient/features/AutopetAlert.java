@@ -1,7 +1,6 @@
 package me.notpseudo.lexiclient.features;
 
 import me.notpseudo.lexiclient.config.LexiConfig;
-import me.notpseudo.lexiclient.utils.ChatUtils;
 import me.notpseudo.lexiclient.utils.TextUtils;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
