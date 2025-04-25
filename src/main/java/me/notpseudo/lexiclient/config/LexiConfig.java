@@ -9,10 +9,7 @@ import cc.polyfrost.oneconfig.config.data.Mod;
 import cc.polyfrost.oneconfig.config.data.ModType;
 import me.notpseudo.lexiclient.features.PositionMessages;
 import me.notpseudo.lexiclient.features.RelicSpawnTimer;
-import me.notpseudo.lexiclient.hud.DominusHud;
-import me.notpseudo.lexiclient.hud.MelodyHud;
-import me.notpseudo.lexiclient.hud.PosMessageHud;
-import me.notpseudo.lexiclient.hud.RelicSpawnHud;
+import me.notpseudo.lexiclient.hud.*;
 import me.notpseudo.lexiclient.utils.ChatUtils;
 import net.minecraft.client.audio.SoundCategory;
 
@@ -37,10 +34,9 @@ public class LexiConfig extends Config {
             name = "Position Title Display Time",
             min = 2, max = 10,
             description = "The number of seconds to display the title for after receiving a positional message",
-            step = 1,
             category = "Dungeons", subcategory = "Position Titles"
     )
-    public static int posTitleDisplayTime = 5;
+    public static float posTitleDisplayTime = 5;
 
     @Switch(
             name = "Play Sound for Positional",
@@ -132,10 +128,9 @@ public class LexiConfig extends Config {
             name = "Melody Title Display Time",
             min = 2, max = 10,
             description = "The number of seconds to display the title for after receiving a melody message",
-            step = 1,
             category = "Dungeons", subcategory = "Melody Title"
     )
-    public static int melodyTitleDisplayTime = 5;
+    public static float melodyTitleDisplayTime = 5;
 
     @Number(
             name = "Melody Title Timeout",
@@ -222,6 +217,36 @@ public class LexiConfig extends Config {
             name = "Test Relic Timer", text = "Test", category = "Dungeons", subcategory = "Relic Spawn Timer"
     )
     Runnable testRelicTimer = RelicSpawnTimer::testRelicSpawnTimer;
+
+    @HUD(
+            name = "Autopet Alert",
+            category = "Misc",
+            subcategory = "Autopet Alert"
+    )
+    public static AutopetHud autopetHud = new AutopetHud();
+
+    @Switch(
+            name = "Include Equipped",
+            category = "Misc",
+            subcategory = "Autopet Alert",
+            description = "If on, adds the word \"Equipped\" in the notification on screen"
+    )
+    public static boolean autopetIncludeEquipped = true;
+
+    @Switch(
+            name = "Show Pet Level",
+            category = "Misc",
+            subcategory = "Autopet Alert"
+    )
+    public static boolean autopetShowLevel = true;
+
+    @Number(
+            name = "Autopet Alert Time",
+            min = 1, max = 5,
+            description = "The number of seconds to display the title for after an autopet occurs",
+            category = "Misc", subcategory = "Autopet Alert"
+    )
+    public static float autopetTime = 1;
 
     @HUD(
             name = "Dominus Hud",

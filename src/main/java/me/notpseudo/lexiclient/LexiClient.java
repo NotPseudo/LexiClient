@@ -2,10 +2,7 @@ package me.notpseudo.lexiclient;
 
 import me.notpseudo.lexiclient.command.LexiClientCommand;
 import me.notpseudo.lexiclient.events.EventDispatcher;
-import me.notpseudo.lexiclient.features.DominusTimer;
-import me.notpseudo.lexiclient.features.DumbMessages;
-import me.notpseudo.lexiclient.features.PositionMessages;
-import me.notpseudo.lexiclient.features.RelicSpawnTimer;
+import me.notpseudo.lexiclient.features.*;
 import me.notpseudo.lexiclient.utils.SBInfo;
 import me.notpseudo.lexiclient.utils.TabListUtils;
 import me.notpseudo.lexiclient.utils.TitleUtils;
@@ -59,6 +56,7 @@ public class LexiClient {
         MinecraftForge.EVENT_BUS.register(new PositionMessages());
         MinecraftForge.EVENT_BUS.register(new RelicSpawnTimer());
         MinecraftForge.EVENT_BUS.register(new EventDispatcher());
+        MinecraftForge.EVENT_BUS.register(new AutopetAlert());
         PositionMessages.loadPosMessageConfig();
     }
 
