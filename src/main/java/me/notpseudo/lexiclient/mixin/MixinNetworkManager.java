@@ -23,5 +23,11 @@ public class MixinNetworkManager {
         if (packetEvent.isCanceled() && callbackInfo.isCancellable()) callbackInfo.cancel();
     }
 
+    @Inject(method = {"sendPacket(Lnet/minecraft/network/Packet;)V"}, at = {@At("HEAD")}, cancellable = true)
+    private void onSendPacket(Packet<?> packet, CallbackInfo ci) {
+        PacketEvent.Send packetEvent = new PacketEvent.Send(packet);
+        MinecraftForge.EVENT_BUS.post(packetEvent);
+    }
+
 
 }
