@@ -249,6 +249,97 @@ public class LexiConfig extends Config {
     public static float autopetTime = 1;
 
     @HUD(
+            name = "Gifts Alert",
+            category = "Misc",
+            subcategory = "Gifts"
+    )
+    public static GiftHud giftHud = new GiftHud();
+
+    @Number(
+            name = "Gift Alert Display Time",
+            category = "Misc",
+            subcategory = "Gifts",
+            description = "The number of seconds to alert for when you drop a gift you care about",
+            min = 1, max = 5
+    )
+    public static float giftDisplayTime = 1;
+
+    @Switch(
+            name = "Count Good Items Between Clears",
+            category = "Misc",
+            subcategory = "Gifts",
+            description = "Also displays the number of gifts you care about since the last /clearstash"
+    )
+    public static boolean showSinceClear = false;
+
+    @Switch(
+            name = "Show Individual Drops",
+            category = "Misc",
+            subcategory = "Gifts",
+            description = "Show how many of each gift you care about you have dropped since the last /clearstash"
+    )
+    public static boolean showSeparateGiftDrops = false;
+
+    @HUD(
+            name = "Item Stash Alert",
+            category = "Misc",
+            subcategory = "Gifts"
+    )
+    public static ItemStashHud itemStashHud = new ItemStashHud();
+
+    @Switch(
+            name = "Item Stash Alert Show Count",
+            category = "Misc",
+            subcategory = "Gifts",
+            description = "Also display how many items are in your item stash"
+    )
+    public static boolean itemStashCount = false;
+
+    @Number(
+            name = "Item Stash Limit",
+            category = "Misc",
+            subcategory = "Gifts",
+            description = "The number of items in your stash before you want to be notified",
+            min = 0, max = 720
+    )
+    public static int itemStashLimit = 650;
+
+    @Switch(
+            name = "Item Stash Alert Play Sound",
+            category = "Misc",
+            subcategory = "Gifts",
+            description = "Plays a sound when item stash is almost full until you open stash"
+    )
+    public static boolean itemStashPlaySound = false;
+
+    @Dropdown(
+            name = "Item Stash Alert Sound",
+            category = "Misc",
+            subcategory = "Gifts",
+            description = "The sound to play when item stash is almost full",
+            options = {"random.anvil_land", "mob.blaze.hit", "fire.ignite", "random.orb", "random.break", "mob.guardian.land.hit", "note.pling"}
+    )
+    public static int itemStashSound = 0;
+
+    @Slider(
+            name = "Item Stash Alert Volume",
+            description = "Volume of item stash alert sound",
+            category = "Misc",
+            subcategory = "Gifts",
+            min = 0f,
+            max = 1f
+    )
+    public static float itemStashVolume = .7f;
+
+    @Text(
+            name = "Mod Prefix",
+            description = "The prefix LexiClient should send for info messages",
+            category = "Config",
+            placeholder = "§6[LexiClient]"
+    )
+    public static String MOD_PREFIX = ChatUtils.ChatColor.GOLD + "[LexiClient]";
+
+    @HUD(
             name = "Dominus Hud",
             category = "Crimson Stack"
     )
@@ -292,7 +383,7 @@ public class LexiConfig extends Config {
             name = "Test Message", text = "Test", category = "Testing"
     )
     Runnable sendTestMessage = () -> {
-        ChatUtils.info(testMessage, false);
+        ChatUtils.sendToClient(testMessage, false);
     };
 
     public LexiConfig() {
