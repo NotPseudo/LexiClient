@@ -56,7 +56,7 @@ public class PositionMessages {
 
     private static List<PositionalMessage> posMessages = new ArrayList<>();
 
-    public static void loadPosMessageConfig() {
+    public static boolean loadPosMessageConfig() {
         if (!CONFIG_FILE.exists()) {
             saveDefaultPosMessages();
         }
@@ -64,10 +64,13 @@ public class PositionMessages {
             Type listType = new TypeToken<List<PositionalMessage>>() {}.getType();
             posMessages.clear();
             posMessages = GSON.fromJson(reader, listType);
+            return true;
         } catch (FileNotFoundException e) {
             LexiClient.LOGGER.error("Positional messages config file not found!\n" + e.getMessage());
+            return false;
         } catch (IOException e) {
             LexiClient.LOGGER.error("Error reading positional messages config file!\n" + e.getMessage());
+            return false;
         }
     }
 
