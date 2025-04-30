@@ -31,8 +31,6 @@ public class LexiClient {
     public static final String VERSION = "@VER@";
     // Sets the variables from `gradle.properties`. See the `blossom` config in `build.gradle.kts`.
 
-    public static final String CHAT_PREFIX = "§f<§3LexiClient§f>§r";
-
     public static final Logger LOGGER = LogManager.getLogger("@ID@");
 
     public static Minecraft mc;
@@ -57,7 +55,9 @@ public class LexiClient {
         MinecraftForge.EVENT_BUS.register(new RelicSpawnTimer());
         MinecraftForge.EVENT_BUS.register(new EventDispatcher());
         MinecraftForge.EVENT_BUS.register(new AutopetAlert());
+        MinecraftForge.EVENT_BUS.register(new GiftNotifications());
         PositionMessages.loadPosMessageConfig();
+        GiftNotifications.loadGoodGifts();
     }
 
     @SubscribeEvent
