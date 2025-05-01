@@ -58,7 +58,10 @@ public class PositionMessages {
 
     public static boolean loadPosMessageConfig() {
         if (!CONFIG_FILE.exists()) {
-            saveDefaultPosMessages();
+            if (!saveDefaultPosMessages()) {
+                LexiClient.LOGGER.error("Could not save config/lexiclient/positional_messages.json");
+                return false;
+            }
         }
         try (FileReader reader = new FileReader(CONFIG_FILE)) {
             Type listType = new TypeToken<List<PositionalMessage>>() {}.getType();
@@ -74,15 +77,25 @@ public class PositionMessages {
         }
     }
 
-    private static void savePosMessages() {
+    private static boolean savePosMessages() {
+        if (!CONFIG_FILE.exists()) {
+            try {
+                CONFIG_FILE.createNewFile();
+            } catch (IOException e) {
+                LexiClient.LOGGER.error("Could not create config/lexiclient/positional_messages.json", e);
+                return false;
+            }
+        }
         try (FileWriter writer = new FileWriter(CONFIG_FILE, false)) {
             GSON.toJson(posMessages, writer);
+            return true;
         } catch (IOException e) {
             LexiClient.LOGGER.error("Error writing to positional messages JSON file " + e.getMessage());
+            return false;
         }
     }
 
-    public static void saveDefaultPosMessages() {
+    public static boolean saveDefaultPosMessages() {
         posMessages.clear();
         posMessages.add(new PositionalMessage(106, 120, 89, 110, 121, 99, "At SS!", 60));
         posMessages.add(new PositionalMessage(48, 109, 125, 60, 110, 135, "At Early Enter 2!", 60));
@@ -96,7 +109,7 @@ public class PositionMessages {
         posMessages.add(new PositionalMessage(61,126,34,65,128,37, "At I4!", 60));
 
         //posMessages.add(new PositionalMessage(50,70,50,58,70,54, "At Mid!", 60));
-        savePosMessages();
+        return savePosMessages();
     }
 
     public static void checkPosition() {
