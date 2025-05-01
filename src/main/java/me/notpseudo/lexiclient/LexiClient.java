@@ -13,10 +13,13 @@ import cc.polyfrost.oneconfig.events.event.InitializationEvent;
 import net.minecraftforge.fml.common.Mod;
 import cc.polyfrost.oneconfig.utils.commands.CommandManager;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
 
 /**
  * The entrypoint of the Example Mod that initializes it.
@@ -56,6 +59,16 @@ public class LexiClient {
         MinecraftForge.EVENT_BUS.register(new EventDispatcher());
         MinecraftForge.EVENT_BUS.register(new AutopetAlert());
         MinecraftForge.EVENT_BUS.register(new GiftNotifications());
+    }
+
+    @Mod.EventHandler
+    public void onPostInit(FMLPostInitializationEvent event) {
+        File dir = new File(mc.mcDataDir, "config/lexiclient");
+        if (!dir.exists()) {
+            if (!dir.mkdirs()) {
+                LexiClient.LOGGER.error("Couldn't create config directory");
+            }
+        }
         PositionMessages.loadPosMessageConfig();
         GiftNotifications.loadGoodGifts();
     }
