@@ -15,7 +15,7 @@ public class ItemStashHud extends NotificationHud {
     @Override
     protected void getLines(List<String> lines, boolean example) {
         if (example) {
-            lines.add(ChatUtils.ChatColor.RED + "Item Stash Almost Full!" + (LexiConfig.itemStashCount ? LexiConfig.itemStashLimit : ""));
+            lines.add(ChatUtils.ChatColor.RED + "Item Stash Almost Full!" + (LexiConfig.itemStashCount ? " " + LexiConfig.itemStashLimit + " In Stash": ""));
             return;
         }
         lines.add(GiftNotifications.getItemStashNotification());
