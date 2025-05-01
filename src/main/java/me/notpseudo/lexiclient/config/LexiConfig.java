@@ -249,7 +249,7 @@ public class LexiConfig extends Config {
     public static float autopetTime = 1;
 
     @HUD(
-            name = "Gifts Alert",
+            name = "Gift Alert",
             category = "Misc",
             subcategory = "Gifts"
     )
@@ -262,13 +262,56 @@ public class LexiConfig extends Config {
             description = "The number of seconds to alert for when you drop a gift you care about",
             min = 1, max = 5
     )
-    public static float giftDisplayTime = 1;
+    public static float giftDisplayTime = 1.5f;
+
+    @Switch(
+            name = "Play Sound for Good Drop",
+            category = "Misc",
+            subcategory = "Gifts",
+            description = "If on, will play a sound when you drop a gift you care about"
+    )
+    public static boolean playGiftSound = false;
+
+    @Switch(
+            name = "Play Sound For Only Items",
+            category = "Misc",
+            subcategory = "Gifts",
+            description = "If on, will only play a sound for actual item drops (not Coins or XP)"
+    )
+    public static boolean playGiftSoundOnlyItem = false;
+
+    @Dropdown(
+            name = "Gift Alert Sound",
+            category = "Misc",
+            subcategory = "Gifts",
+            description = "The sound to play when you get a good drop from gifts",
+            options = {"random.anvil_land", "mob.blaze.hit", "fire.ignite", "random.orb", "random.break", "mob.guardian.land.hit", "note.pling"}
+    )
+    public static int giftSound = 0;
+
+    @Slider(
+            name = "Gift Alert Volume",
+            description = "Volume of gift alert sound",
+            category = "Misc",
+            subcategory = "Gifts",
+            min = 0f,
+            max = 1f
+    )
+    public static float giftAlertVolume = .7f;
 
     @Switch(
             name = "Count Good Items Between Clears",
             category = "Misc",
             subcategory = "Gifts",
-            description = "Also displays the number of gifts you care about since the last /clearstash"
+            description = "Also displays the number of actual drops (non XP or Coin drops) you care about since the last /clearstash"
+    )
+    public static boolean showItemsSinceClear = false;
+
+    @Switch(
+            name = "Count Good Drops Between Clears",
+            category = "Misc",
+            subcategory = "Gifts",
+            description = "Also displays the number of drops (including XP and Coin drops) you care about since the last /clearstash"
     )
     public static boolean showSinceClear = false;
 
