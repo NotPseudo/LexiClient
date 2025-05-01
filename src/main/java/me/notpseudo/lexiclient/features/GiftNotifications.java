@@ -27,10 +27,11 @@ public class GiftNotifications {
 
     private static final String ITEMS_STASHED_REGEX = "You have (\\d+) items stashed away!";
     private static final Pattern ITEMS_STASHED_PATTERN = Pattern.compile(ITEMS_STASHED_REGEX);
-    private static final String GIFT_REGEX = "! (.+) §egift with §.(?:\\[.*?\\] )?[a-zA-Z0-9_]+§e!";
+    private static final String GIFT_REGEX = "! §r(.+) §r§egift with §.(?:.*\\[.*?\\] )?[a-zA-Z0-9_]+.*§e!";
     private static final Pattern GIFT_PATTERN = Pattern.compile(GIFT_REGEX);
 
     private static int caresSinceLastClear = 0;
+    private static int careItemsSinceLastClear = 0;
     private static boolean openedStash = true;
 
     private static boolean guiOpenEventReceived = false;
@@ -43,30 +44,45 @@ public class GiftNotifications {
     private static String lastCareDrop = null;
     private static int itemsInStash = 0;
 
+    private static final String[] sounds = {"random.anvil_land", "mob.blaze.hit", "fire.ignite", "random.orb", "random.break", "mob.guardian.land.hit", "note.pling"};
+
     private static final File CONFIG_FILE = new File(mc.mcDataDir, "config/lexiclient/goodgifts.txt");
 
-    public static boolean loadGoodGifts() {
+    public static Set<String> loadGoodGifts() {
         if (!CONFIG_FILE.exists()) {
-            resetGoodGifts();
+            if (!resetGoodGifts()) {
+                LexiClient.LOGGER.error("Failed to reset gift config file");
+                return null;
+            }
         }
         try (Scanner reader = new Scanner(CONFIG_FILE).useDelimiter("\\Z");) {
-            String content = reader.next().trim().replaceAll("\n", "");
+            String content = reader.next().trim().replaceAll("\\n", ",");
             reader.close();
             caredItems.clear();
-            Arrays.asList(content.split("[,\\n]")).forEach(s -> caredItems.add(s.trim()));
-            return true;
+            Arrays.asList(content.split(",")).forEach(s -> caredItems.add(s.trim()));
+            return caredItems;
         } catch (FileNotFoundException e) {
             LexiClient.LOGGER.error("Could not find config/lexiclient/goodgifts.txt", e);
-            return false;
+            return null;
         }
     }
 
-    public static void resetGoodGifts() {
+    public static boolean resetGoodGifts() {
+        if (!CONFIG_FILE.exists()) {
+            try {
+                CONFIG_FILE.createNewFile();
+            } catch (IOException e) {
+                LexiClient.LOGGER.error("Could not create config/lexiclient/goodgifts.txt", e);
+                return false;
+            }
+        }
         try (FileWriter writer = new FileWriter(CONFIG_FILE, false)) {
             writer.write("Holly Dye,Snowman,Cryopowder Shard,Winter Island,Krampus Helmet,Golden Gift");
             writer.close();
+            return true;
         } catch (IOException e) {
             LexiClient.LOGGER.error("Could not write to config/lexiclient/goodgifts.txt", e);
+            return false;
         }
     }
 
@@ -76,7 +92,9 @@ public class GiftNotifications {
         if (message.startsWith("/viewstash")) {
             openedStash = true;
         } else if (message.startsWith("/clearstash")) {
+            openedStash = true;
             caresSinceLastClear = 0;
+            careItemsSinceLastClear = 0;
             foundGifts.clear();
         }
     }
@@ -114,14 +132,23 @@ public class GiftNotifications {
                 String giftNoColor = TextUtils.stripColor(gift);
                 if (caredItems.contains(giftNoColor)) {
                     foundGifts.put(gift, foundGifts.getOrDefault(gift, 0) + 1);
+                    boolean isItem = false;
+                    if (!(giftNoColor.endsWith("Coins") || giftNoColor.endsWith("XP"))) {
+                        careItemsSinceLastClear++;
+                        isItem = true;
+                    }
+                    if (LexiConfig.playGiftSound) {
+                        if (isItem || !LexiConfig.playGiftSoundOnlyItem) {
+                            SoundUtils.playSound(sounds[LexiConfig.giftSound], LexiConfig.giftAlertVolume, 1f);
+                        }
+                    }
                     caresSinceLastClear++;
+                    lastCareDrop = gift;
                     lastCareDropTime = System.currentTimeMillis();
                 }
             }
         }
     }
-
-    private static final String[] sounds = {"random.anvil_land", "mob.blaze.hit", "fire.ignite", "random.orb", "random.break", "mob.guardian.land.hit", "note.pling"};
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
@@ -152,7 +179,8 @@ public class GiftNotifications {
         if (System.currentTimeMillis() - lastCareDropTime < (LexiConfig.giftDisplayTime * 1000L) && lastCareDrop != null) {
             hudStrings.add(lastCareDrop);
         }
-        if (LexiConfig.showSinceClear) hudStrings.add("Good Items Since Last Clear: " + caresSinceLastClear);
+        if (LexiConfig.showItemsSinceClear) hudStrings.add("Good Items Since Last Clear: " + careItemsSinceLastClear);
+        if (LexiConfig.showSinceClear) hudStrings.add("Good Drops Since Last Clear: " + caresSinceLastClear);
         if (LexiConfig.showSeparateGiftDrops) {
             foundGifts.forEach((k, v) -> hudStrings.add(k + ": " + v));
         }
@@ -161,7 +189,7 @@ public class GiftNotifications {
 
     public static String getItemStashNotification() {
         if (!LexiConfig.itemStashHud.isEnabled() || openedStash) return "";
-        return ChatUtils.ChatColor.RED + "Item Stash Almost Full!" + (LexiConfig.itemStashCount ? itemsInStash : "");
+        return ChatUtils.ChatColor.RED + "Item Stash Almost Full!" + (LexiConfig.itemStashCount ? " " + itemsInStash + " In Stash" : "");
     }
 
 
