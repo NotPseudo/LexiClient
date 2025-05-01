@@ -9,6 +9,8 @@ import me.notpseudo.lexiclient.features.GiftNotifications;
 import me.notpseudo.lexiclient.features.PositionMessages;
 import me.notpseudo.lexiclient.utils.ChatUtils;
 
+import java.util.Set;
+
 /**
  * An example command implementing the Command api of OneConfig.
  * Registered in LexiClient.java with `CommandManager.INSTANCE.registerCommand(new LexiClientCommand());`
@@ -33,17 +35,22 @@ public class LexiClientCommand {
 
         @SubCommand(description = "Loads the gifts you care about config file from config/lexiclient/goodgifts.txt", aliases = {"gifts", "goodgifts"})
         private void gift() {
-            if (GiftNotifications.loadGoodGifts()) {
-                ChatUtils.info("Loaded gifts");
+            Set<String> loaded = GiftNotifications.loadGoodGifts();
+            if (loaded == null) {
+                ChatUtils.error("Failed to load gifts");
             } else {
-                ChatUtils.info("Failed to load gifts");
+                ChatUtils.success("Loaded gifts: " + loaded);
             }
         }
 
         @SubCommand(description = "Loads the positional messages config file from config/lexiclient/positional_messages.json", aliases = {"pm", "posmessages", "positionalmessages"})
         private void posmessage() {
-            PositionMessages.loadPosMessageConfig();
-            ChatUtils.info("Loaded positional messages");
+            if (PositionMessages.loadPosMessageConfig()) {
+                ChatUtils.success("Loaded positional messages");
+            } else {
+                ChatUtils.error("Failed to load positional messages");
+            }
+
         }
 
     }
