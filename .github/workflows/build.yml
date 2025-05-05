@@ -51,5 +51,5 @@ jobs:
         name: Upload LexiClient
         with:
           name: "LexiClient Build"
-          path: versions/1.8.9-forge/build/libs/*.jar
+          path: versions/1.8.9-forge/build/libs/*[!dev].jar
 
