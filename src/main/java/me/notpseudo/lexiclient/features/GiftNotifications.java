@@ -55,11 +55,11 @@ public class GiftNotifications {
                 return null;
             }
         }
-        try (Scanner reader = new Scanner(CONFIG_FILE).useDelimiter("\\Z");) {
+        try (Scanner reader = new Scanner(CONFIG_FILE).useDelimiter("\\Z")) {
             String content = reader.next().trim().replaceAll("\\n", ",");
             reader.close();
             caredItems.clear();
-            Arrays.asList(content.split(",")).forEach(s -> caredItems.add(s.trim()));
+            Arrays.asList(content.split("\"\\s*,\\s*\"")).forEach(s -> caredItems.add(s.replaceAll("\"", "").trim()));
             return caredItems;
         } catch (FileNotFoundException e) {
             LexiClient.LOGGER.error("Could not find config/lexiclient/goodgifts.txt", e);
@@ -77,7 +77,7 @@ public class GiftNotifications {
             }
         }
         try (FileWriter writer = new FileWriter(CONFIG_FILE, false)) {
-            writer.write("Holly Dye,Snowman,Cryopowder Shard,Winter Island,Krampus Helmet,Golden Gift");
+            writer.write("\"Holly Dye\", \"Snowman\", \"Cryopowder Shard\", \"Winter Island\", \"Krampus Helmet\", \"Golden Gift\"");
             writer.close();
             return true;
         } catch (IOException e) {
