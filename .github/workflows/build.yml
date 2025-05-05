@@ -28,6 +28,7 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
+          cache: gradle
 
       - uses: actions/cache@v4
         with:
@@ -45,3 +46,10 @@ jobs:
 
       - name: Build
         run: ./gradlew build --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        name: Upload LexiClient
+        with:
+          name: "LexiClient Build"
+          path: versions/1.8.9-forge/build/libs/*.jar
+
